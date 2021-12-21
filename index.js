@@ -10,10 +10,19 @@ app.use("*", async (req, res, next) => {
 });
 
 app.use("/src", express.static(__dirname + "/src"));
-app.use("/:data.:data2", async (req, res) => {
-  let dataFetch = await fetch('https://discord.com/' + req.params.data + "." + req.params.data2)
+
+app.use("/:data*", async (req, res) => {
+  console.log(req.method)
+  console.log(req.headers)
+  if(req.params['0']){
+    
+    if(req.body){
+    
+  let dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method, body: JSON.stringify(req.body), headers: req.headers})
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method, body: JSON.stringify(req.body)})
+
   let dataText = await dataFetch.text()
-  console.log('https://discord.com/'+ req.params.data + "." + req.params.data2)
+  console.log('https://discord.com/' + req.params.data+ req.params['0'])
   try {
   
     let s = JSON.parse(dataText)
@@ -23,11 +32,27 @@ app.use("/:data.:data2", async (req, res) => {
   } catch {
 return res.send(dataText)
 }
+      
+    }else{
+    
+  let dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method, headers: req.headers}).catch(err =>{})
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method})
+  let dataText = await dataFetch.text()
+  console.log('https://discord.com/' + req.params.data+ req.params['0'])
+  try {
   
-	res.send();
-});
+    let s = JSON.parse(dataText)
+    
+    return res.json(s)
+    
+  } catch {
+return res.send(dataText)
+}
+      
+    
+}
 
-app.use("/:data", async (req, res) => {
+  }else{
   let dataFetch = await fetch('https://discord.com/' + req.params.data)
   let dataText = await dataFetch.text()
   console.log('https://discord.com/' + req.params.data)
@@ -40,8 +65,7 @@ app.use("/:data", async (req, res) => {
   } catch {
 return res.send(dataText)
 }
-  
-	res.send();
+} 
 });
 
 
