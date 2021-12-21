@@ -28,7 +28,7 @@ async function createWindow() {
 		e.preventDefault();
 		require("electron").shell.openExternal(url);
 	});
-	win.loadURL("https://discord.com");
+	win.loadURL("https://scalloped-mahogany-chronometer.glitch.me");
 	// win.loadURL("data:text/html;charset=UTF-8," + encodeURIComponent(html), {
 	// 	baseURLForDataURL: `file://${__dirname}/app`,
 	// });
@@ -41,7 +41,7 @@ async function createWindow() {
 	session.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
 		if (
 			[
-				"https://discord.com/api/v9/users/@me/library",
+				"https://scalloped-mahogany-chronometer.glitch.me/api/v9/users/@me/library",
 				"https://discord.com/api/v9/users/@me/guilds/premium/subscriptions",
 				"https://discord.com/api/v9/science",
 			].includes(details.url) ||
@@ -50,7 +50,7 @@ async function createWindow() {
 		) {
 			return callback({ cancel: true });
 		}
-		if (details.url.startsWith("https://discord.com/assets")) {
+		if (details.url.startsWith("https://scalloped-mahogany-chronometer.glitch.me/assets")) {
 			details.requestHeaders["User-Agent"] =
 				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36";
 		} else {

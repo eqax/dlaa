@@ -43,8 +43,6 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 
 chrome.webRequest.onHeadersReceived.addListener(
 	(details) => {
-		if (chr) if (details.initiator !== "https://botclient.tk") return;
-		if (fir) if (!details.originUrl.includes("botclient.tk")) return;
 
 		let header = details.responseHeaders.find((e) => e.name.toLowerCase() === "access-control-allow-origin");
 		if (header) header.value = "*";

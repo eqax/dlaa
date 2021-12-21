@@ -9,8 +9,12 @@ app.use("*", async (req, res, next) => {
 });
 
 app.use("/src", express.static(__dirname + "/src"));
+app.use("/*", async (req, res) => {
+  data
+	res.send();
+});
 
-app.use("*", async (req, res) => {
+app.use("/", async (req, res) => {
 	res.send(discordIndexHTML);
 });
 
