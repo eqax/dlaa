@@ -11,14 +11,25 @@ app.use("*", async (req, res, next) => {
 
 app.use("/src", express.static(__dirname + "/src"));
 
+
 app.use("/:data*", async (req, res) => {
-  console.log(req.method)
-  console.log(req.headers)
+    let headers = req.headers
+delete headers['x-forwarded-for']
+delete headers['x-forwarded-proto']
+delete headers['x-forwarded-port']
+delete headers['host']
+delete headers['x-forwarded-host']
+delete headers['traceparent']
+delete headers['connection']
+  console.log(req.params)
+
+
   if(req.params['0']){
-    
+
+
     if(req.body){
     
-  let dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method, body: JSON.stringify(req.body), headers: req.headers})
+  let dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method, body: JSON.stringify(req.body), headers: headers})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method, body: JSON.stringify(req.body)})
 
   let dataText = await dataFetch.text()
@@ -35,7 +46,7 @@ return res.send(dataText)
       
     }else{
     
-  let dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method, headers: req.headers}).catch(err =>{})
+  let dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method, headers: headers}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com/' + req.params.data + req.params['0']), {method: req.method})
   let dataText = await dataFetch.text()
   console.log('https://discord.com/' + req.params.data+ req.params['0'])
@@ -53,7 +64,24 @@ return res.send(dataText)
 }
 
   }else{
-  let dataFetch = await fetch('https://discord.com/' + req.params.data)
+        if(req.body){
+console.log('https://discord.com/' + req.params.data)
+  let dataFetch = await fetch(('https://discord.com/' + req.params.data), {method: req.method, headers: headers, body: JSON.stringify(req.body)}).catch(err =>{})
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com/' + req.params.data), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
+
+  let dataText = await dataFetch.text()
+  console.log(req.params)
+  try {
+  
+    let s = JSON.parse(dataText)
+    
+    return res.json(s)
+    
+  } catch {
+return res.send(dataText)
+}
+        }else{
+  let dataFetch = await fetch(('https://discord.com/' + req.params.data), {method: req.method, headers: headers})
   let dataText = await dataFetch.text()
   console.log('https://discord.com/' + req.params.data)
   try {
@@ -64,6 +92,7 @@ return res.send(dataText)
     
   } catch {
 return res.send(dataText)
+}
 }
 } 
 });
