@@ -4,12 +4,10 @@ const fs = require("fs");
 let fetch = require('node-fetch')
 var discordIndexHTML = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
 
-app.use("*", async (req, res, next) => {
-	res.setHeader("access-control-allow-origin", "*");
-	next();
-});
-
 app.use("/src", express.static(__dirname + "/src"));
+const bodyParser = require('body-parser');
+console.log('Started')
+ app.use(bodyParser.json({limit: "50mb"}));
 
 app.use("/:data*", async (req, res) => {
   if(req.originalUrl === '/assets/0.2d737cc92c807c265e1f.css') return res.sendFile(__dirname + "/style1.css")
@@ -28,11 +26,12 @@ if(headers['cookie']) headersNew['cookie'] = headers['cookie']
 if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprint']
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 
-  console.log(headersNew)
 //  if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
-  if(req.body){
+  console.log(req.body)
+  if(JSON.stringify(req.body) !== `{}`){
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 
   let dataText = await dataFetch.text()
   try {
