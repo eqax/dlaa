@@ -42,11 +42,11 @@ async function createWindow() {
 		if (
 			[
 				"https://scalloped-mahogany-chronometer.glitch.me/api/v9/users/@me/library",
-				"https://discord.com/api/v9/users/@me/guilds/premium/subscriptions",
-				"https://discord.com/api/v9/science",
+				"https://scalloped-mahogany-chronometer/api/v9/users/@me/guilds/premium/subscriptions",
+				"https://scalloped-mahogany-chronometer/api/v9/science",
 			].includes(details.url) ||
-			details.url.includes("https://discord.com/api/v9/users/@me/billing/trials/") ||
-			details.url.includes("https://discord.com/api/v9/users/@me/applications/")
+			details.url.includes("https://scalloped-mahogany-chronometer/api/v9/users/@me/billing/trials/") ||
+			details.url.includes("https://scalloped-mahogany-chronometer/api/v9/users/@me/applications/")
 		) {
 			return callback({ cancel: true });
 		}
