@@ -1,42 +1,50 @@
-# Hello Node!
+![BOT CLIENT](https://s12.directupload.net/images/200907/zcpxtyxp.png)
 
-This project includes a Node.js server script and a web page that connects to it. The front-end page presents a form the visitor can use to submit a color name, sending the submitted value to the back-end API running on the server. The server returns info to the page that allows it to update the display with the chosen color. 🎨
+<div>
+  <p>
+    <a href="https://www.patreon.com/flam3rboy" data-patreon-widget-type="become-patron-button"><img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="85"></a>
+  </p>
+    
 
-[Node.js](https://nodejs.org/en/about/) is a popular runtime that lets you run server-side JavaScript. This project uses the [Fastify](https://www.fastify.io/) framework and explores basic templating with [Handlebars](https://handlebarsjs.com/).
+| [Download](https://github.com/Flam3rboy/discord-bot-client/releases/tag/3.1.0) | [FAQ](https://github.com/Flam3rboy/discord-bot-client/blob/master/FAQ.md) | [Tutorial](https://www.youtube.com/watch?v=AmKBFzJOMpY) |
+| :---: | :---: | :---: |
 
-## Prerequisites
+</div>
 
-You'll get best use out of this project if you're familiar with basic JavaScript. If you've written JavaScript for client-side web pages this is a little different because it uses server-side JS, but the syntax is the same!
+---
 
-## What's in this project?
+**Discord Bot Client** allows you to use your bot, just like any other user account, except Friends and Groups. 
 
-← `README.md`: That’s this file, where you can tell people what your cool website does and how you built it.
+### **No longer Maintained, only security flaws and critical errors**
+### Development continued in [fosscord](https://fosscord.com/)
 
-← `public/style.css`: The styling rules for the pages in your site.
+---
+![Features](https://s12.directupload.net/images/200907/9m8qldwi.png)
+- **View Guilds** *(Lazy load them)*
+- **Manage Guilds** (Name, Image, Audit log, Emoji, Webhooks, Invites, Bans, Widget, Moderation, Roles)
+- **Manage Channels** (Add, Delete, Name, Permissions, Invites, Webhooks, Slowmode, NSFW, Topic)
+- **Messages** (Send, View History, Embeds, View Reactions, Add/Remove Reactions, Delete, Edit, Pin)
+- **Create a Guild** (if the bot has fewer than 10 Servers)
+- **Voice Support**
+- **See Guild members in the side bar** (you can see them in the server dropdown menu under members)
+- **Use Emojis from other servers** (Nitro)
+- **GIF Search**
+- **Send Files**
+- **DM's** (DM's will show up, after a user dms the bot)
 
-← `server.js`: The **Node.js** server script for your new site. The JavaScript defines the endpoints in the site back-end, one to return the homepage and one to update with the submitted color. Each one sends data to a Handlebars template which builds these parameter values into the web page the visitor sees.
+---
 
-← `package.json`: The NPM packages for your project's dependencies.
+![Build](https://s12.directupload.net/images/200907/5j3544ai.png)
 
-← `src/`: This folder holds the site template along with some basic data files.
+>  __You need to install [NodeJS](https://nodejs.org/en/download/).__ Install git or just download the repository as a zip file:
 
-← `src/pages/index.hbs`: This is the main page template for your site. The template receives parameters from the server script, which it includes in the page HTML. The page sends the user submitted color value in the body of a request, or as a query parameter to choose a random color.
+```js
+git clone https://github.com/Flam3rboy/discord-bot-client
+cd discord-bot-client/electron
+```
 
-← `src/colors.json`: A collection of CSS color names. We use this in the server script to pick a random color, and to match searches against color names.
+>  Install all dependencies with ```npm i``` start Bot Client with ```electron .```
+>  
 
-← `src/seo.json`: When you're ready to share your new site or add a custom domain, change SEO/meta settings in here.
 
-## Try this next 🏗️
-
-Take a look in `TODO.md` for next steps you can try out in your new site!
-
-___Want a minimal version of this project to build your own Node.js app? Check out [Blank Node](https://glitch.com/edit/#!/remix/glitch-blank-node)!___
-
-![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)
-
-## You built this with Glitch!
-
-[Glitch](https://glitch.com) is a friendly community where millions of people come together to build web apps and websites.
-
-- Need more help? [Check out our Help Center](https://help.glitch.com/) for answers to any common questions.
-- Ready to make it official? [Become a paid Glitch member](https://glitch.com/pricing) to boost your app with private sharing, more storage and memory, domains and more.
+*Discord Bot Client is **no longer supported** and also no longer updated or maintained.*
