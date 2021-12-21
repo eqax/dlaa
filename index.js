@@ -14,6 +14,7 @@ app.use("/src", express.static(__dirname + "/src"));
 app.use("/:data*", async (req, res) => {
   if(req.originalUrl === '/assets/0.2d737cc92c807c265e1f.css') return res.sendFile(__dirname + "/style1.css")
   if(req.originalUrl === '/assets/532.d49196785d17cb9b60a9.css') return res.sendFile(__dirname + "/style2.css")
+  if(req.originalUrl === '/app') return res.sendFile(__dirname + "/app.html")
 
   let headers = req.headers
 delete headers['x-forwarded-for']
@@ -40,7 +41,7 @@ delete headers['connection']
 return res.send(dataText)
 }
         }else{
-          
+          console.log('https://discord.com' + req.originalUrl)
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headers}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 

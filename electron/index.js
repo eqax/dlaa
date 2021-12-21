@@ -41,9 +41,11 @@ async function createWindow() {
 	session.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
 		if (
 			[
+      	"https://scalloped-mahogany-chronometer.glitch.me/api/v9/users/@me",
+
 				"https://scalloped-mahogany-chronometer.glitch.me/api/v9/users/@me/library",
-				"https://scalloped-mahogany-chronometer/api/v9/users/@me/guilds/premium/subscriptions",
-				"https://scalloped-mahogany-chronometer/api/v9/science",
+				"https://scalloped-mahogany-chronometer.glitch.me/api/v9/users/@me/guilds/premium/subscriptions",
+				"https://scalloped-mahogany-chronometer.glitch.me/api/v9/science",
 			].includes(details.url) ||
 			details.url.includes("https://scalloped-mahogany-chronometer/api/v9/users/@me/billing/trials/") ||
 			details.url.includes("https://scalloped-mahogany-chronometer/api/v9/users/@me/applications/")
