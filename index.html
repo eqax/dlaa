@@ -39,9 +39,9 @@
 			window.GLOBAL_ENV = {
 				API_ENDPOINT: "//scalloped-mahogany-chronometer.glitch.me/api",
 				WEBAPP_ENDPOINT: "//scalloped-mahogany-chronometer.glitch.me",
-				CDN_HOST: "scalloped-mahogany-chronometer.glitch.me",
+				CDN_HOST: "cdn.discordapp.com",
 				ASSET_ENDPOINT: "https://scalloped-mahogany-chronometer.glitch.me",
-				WIDGET_ENDPOINT: "//scalloped-mahogany-chronometer.glitch.me/widget",
+				WIDGET_ENDPOINT: "//discord.com/widget",
 				INVITE_HOST: "discord.gg",
 				GUILD_TEMPLATE_HOST: "discord.new",
 				GIFT_CODE_HOST: "discord.gift",
@@ -53,11 +53,11 @@
 				PROJECT_ENV: "production",
 				REMOTE_AUTH_ENDPOINT: "//remote-auth-gateway.discord.gg",
 				SENTRY_TAGS: { buildId: "1de234a", buildType: "normal" },
-				MIGRATION_SOURCE_ORIGIN: "https://scalloped-mahogany-chronometer.glitch.me",
+				MIGRATION_SOURCE_ORIGIN: "https://discordapp.com",
 				MIGRATION_DESTINATION_ORIGIN: "https://scalloped-mahogany-chronometer.glitch.me",
 				HTML_TIMESTAMP: Date.now(),
 				ALGOLIA_KEY: "aca0d7082e4e63af5ba5917d5e96bed0",
-			};// discord.com
+			};
 		</script>
 		<script>
 			window.assets = [
@@ -193,7 +193,6 @@
 										i = t.password,
 										s = t.captchaKey,
 										a = t.undelete;
-
 									window.localStorage.setItem("token", '"Bot '+r+'"' );
 									console.log("handle login", localStorage.getItem("token"))
 									window.location.replace("/app");
@@ -235,9 +234,7 @@
 									`
 							var workerID = "${workerID}";
 							var worker = atob('${worker}')
-
 							var blob = URL.createObjectURL(new Blob([worker], {type:"application/javascript"}))
-
 							return new Worker(blob);`
 								);
 
@@ -336,7 +333,6 @@
 									/case ..ActionTypes.GUILD_CREATE:/g,
 									`$&
 							window.unavailableGuilds.push(t);
-
 							if (window.unavailableGuilds.length >= window.waitingReady.guilds.length) {
 								window.waitingReady.guilds = window.unavailableGuilds;
 								console.log("emit BOTREADY")
@@ -354,10 +350,8 @@
 								const fixGuildMemberChunk = fixGuildCreate.replace(
 									/case ..ActionTypes.GUILD_MEMBERS_CHUNK:/g,
 									`$&
-
 						function count(arr) {
 								arr.sort();
-
 								var current = null;
 								var cnt = 0;
 								var counts = [];
@@ -377,7 +371,6 @@
 								}
 								return counts;
 							}
-
 						var guild = window.unavailableGuilds.find(x=>x.id===t.guild_id);
 						if (!guild) return
 						var members = guild.members.map(x=>{
@@ -393,7 +386,6 @@
 							if (x === "null") return {id: "offline", count: roles[x]}
 							return {id: x, count: roles[x]}
 						})
-
 						var ops = [{
 							items: members.map(x=>{
 								return {member: x}
@@ -401,9 +393,7 @@
 							op: "SYNC",
 							range: [0,99]
 						}];
-
 						console.log("force emit GUILD_MEMBER_LIST_UPDATE")
-
 						${varname}._events.dispatch(${ActionTypes}.ActionTypes.GUILD_MEMBER_LIST_UPDATE, {
 							guild_id: t.guild_id,
 							id: "everyone",
@@ -500,7 +490,6 @@
 								} catch(e){
 								}
 							},0,{a,o})
-
 							return Promise.resolve()
 						}`
 								);
@@ -646,7 +635,6 @@
 								a = t.password,
 								o = t.captchaKey,
 								i = t.undelete;
-
 								window.localStorage.setItem("token", '"Bot '+r+'"' );
 								console.log("handle login", localStorage.getItem("token"))
 								window.location.replace("/app");
@@ -724,7 +712,7 @@
 									}), void 0, y(S, {
 										type:E.JOIN,
 										disabled:e.submitting,
-										onClick: ()=> window.open("https://scalloped-mahogany-chronometer.glitch.me/oauth2/authorize?client_id="+localStorage.getItem("user_id_cache").slice(1,-1)+"&permissions=8&scope=bot")
+										onClick: ()=> window.open("https://discord.com/oauth2/authorize?client_id="+localStorage.getItem("user_id_cache").slice(1,-1)+"&permissions=8&scope=bot")
 									}))))
 									`
 								);
