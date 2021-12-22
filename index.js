@@ -34,9 +34,8 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
   if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
   console.log('https://discord.com' + req.originalUrl)
   if(JSON.stringify(req.body) === `{}`){
-            console.log('Geted-')
-let dataFetch = await fetch(('https://discord.com' + req.originalUrl.replace('v6', '')), {method: req.method, headers: headersNew}).catch(err =>{})
-console.log(dataFetch)
+if('https://discord.com' + req.originalUrl === "https://discord.com/api/v9/experiments") headersNew = {}
+let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 
   let dataText = await dataFetch.text()
