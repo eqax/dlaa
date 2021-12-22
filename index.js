@@ -28,8 +28,8 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 
   if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
   if(headersNew.authorization === 'Bot undefined') delete headersNew.authorization
-  console.log(req.body)
-  if(JSON.stringify(req.body) !== `{}`){
+  console.log('https://discord.com' + req.originalUrl)
+  if(JSON.stringify(req.body) === `{}`){
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
@@ -45,8 +45,6 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 return res.send(dataText)
 }
         }else{
-          console.log('https://discord.com' + req.originalUrl)
-          console.log(headersNew)
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl.replace('v6')), {method: req.method, headers: headersNew}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 
@@ -71,3 +69,30 @@ app.use("/", async (req, res) => {
 app.listen(3000, () => {
 	console.log("server listening on :3000");
 });
+let ws = require('ws')
+
+const server = new http.createServer(app);
+server.listen(3000)
+
+let wss = new ws.Server({ server });
+
+let clientWs = require('./ws/index.js')
+
+wss.on('connection', async function connection(client, req) {
+  
+let url = req.url
+
+let id = url.split('?id=')
+
+if(!id[1]) return client.close()
+
+let auth = url.split('&auth=')
+
+
+if(!auth[1]) return client.close()
+
+client.auth = auth[1]
+client.id = id[1].split('&')[0]
+
+new clientWs(client, req, wss, client.auth, client.id)
+})
