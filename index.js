@@ -3,13 +3,7 @@ const app = express();
 const fs = require("fs");
 let fetch = require('node-fetch')
 var discordIndexHTML = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
-const http = require('http');
-let ws = require('ws')
 
-const server = new http.createServer(app);
-server.listen(3000)
-
-let wss = new ws.Server({ server });
 app.use("/src", express.static(__dirname + "/src"));
 const bodyParser = require('body-parser');
 console.log('Started')
@@ -31,32 +25,14 @@ if(headers['authorization']) headersNew['authorization'] = headers['authorizatio
 if(headers['cookie']) headersNew['cookie'] = headers['cookie']
 if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprint']
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
+console.log(headersNew)
+console.log(req.originalUrl)
+
   if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
-  console.log('https://discord.com' + req.originalUrl)
-  if(JSON.stringify(req.body) === `{}`){
-if('https://discord.com' + req.originalUrl === "https://discord.com/api/v7/experiments") headersNew = {}
-if('https://discord.com' + req.originalUrl === "https://discord.com/api/v6/experiments") headersNew = {}
-if('https://discord.com' + req.originalUrl === "https://discord.com/api/v9/experiments") headersNew = {}
-
-let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew}).catch(err =>{})
-  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
-
-  let dataText = await dataFetch.text()
-  try {
-  
-    let s = JSON.parse(dataText)
-    return res.json(s)
-    
-  } catch {
-return res.send(dataText)
-}
-
-        }else{
-        console.log('Geted')
-
+  console.log(req.body)
+  if(JSON.stringify(req.body) !== `{}`){
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
-    if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headersNew: headersNew}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 
   let dataText = await dataFetch.text()
@@ -69,7 +45,21 @@ return res.send(dataText)
   } catch {
 return res.send(dataText)
 }
+        }else{
+          console.log('https://discord.com' + req.originalUrl)
+  let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew}).catch(err =>{})
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 
+  let dataText = await dataFetch.text()
+  try {
+  
+    let s = JSON.parse(dataText)
+    
+    return res.json(s)
+    
+  } catch {
+return res.send(dataText)
+}
 }
 
 });
@@ -79,12 +69,6 @@ app.use("/", async (req, res) => {
 	res.send(discordIndexHTML);
 });
 
-
-
-let clientWs = require('./ws/index.js')
-
-wss.on('connection', async function connection(client, req) {
-
-
-new clientWs(client, req, wss)
-})
+app.listen(3000, () => {
+	console.log("server listening on :3000");
+});
