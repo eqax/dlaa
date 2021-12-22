@@ -46,6 +46,7 @@ console.log(req.originalUrl)
 return res.send(dataText)
 }
         }else{
+          if('https://discord.com' + req.originalUrl === "https://discord.com/api/v6/experiments") headersNew = {}
           console.log('https://discord.com' + req.originalUrl)
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
