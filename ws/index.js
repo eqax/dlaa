@@ -8,7 +8,7 @@ this.client= client
 this.ready = false
 this.client.on('message', async (msg) =>{
   console.log(`${msg}`)
-    if(`${msg}`.includes('Buffer')){
+    if(msg.includes('Buffer')){
   await new Promise((res , rej) =>{ 
 
     var stop = false
@@ -59,16 +59,14 @@ this.client.close()
     console.log('c;ose')
 })
 this.wss.on("message" , async msg =>{
-  if(`${msg}`.includes('Buffer')){
+  console.log(`${msg}`)
 
- let s = Buffer.from(msg).toString("utf8")
- console.log(s)
-    return this.client.send(msg)
+      try { return this.client.send(JSON.parse(`${msg}`)) } catch(e) { 
+        console.log(e)
+        return this.client.send(msg) };
 
- }else{
-this.client.send(msg)
 
-}
+
 /*
   let m;
 try {m = JSON.parse(msg)} catch { return; }
