@@ -7,18 +7,41 @@ this._start()
 this.client= client
 this.ready = false
 this.client.on('message', async (msg) =>{
+  console.log(`${msg}`)
+    if(`${msg}`.includes('Buffer')){
   await new Promise((res , rej) =>{ 
 
     var stop = false
     
     setInterval(() =>{ 
     if(stop === true) return;
-if(this.ready === true) {res()}
+if(this.ready === true) {stop === true; res()}
     }, 500)
     
 })
+ let s = Buffer.from(msg).toString("utf8")
+ console.log(s)
+   try { return this.wss.send(JSON.parse(s)) } catch(e) { return this.wss.send(s) };
 
-  this.wss.send(msg)
+ }else{
+     await new Promise((res , rej) =>{ 
+
+    var stop = false
+    
+    setInterval(() =>{ 
+    if(stop === true) return;
+if(this.ready === true) {stop === true; res()}
+    }, 500)
+    
+})
+   try { return this.wss.send(JSON.parse(msg)) } catch(e) { return this.wss.send(msg) };
+
+
+}
+  
+  console.log('ready-send')
+
+
 })
 
 }
@@ -26,14 +49,26 @@ if(this.ready === true) {res()}
    async _start(){
 this.wss = new ws( "wss://gateway.discord.gg/v=7" , [] )
 
-this.wss.on("ready" , async () =>{
+this.wss.on("open" , async () =>{
 this.ready = true
+  console.log('ready')
 })
 this.wss.on("close" , async () =>{
-this.ready = false
-this.wss = new ws( "wss://gateway.discord.gg/v=7" , [] )
+this.client.close()
+  this.ready = false
+    console.log('c;ose')
 })
 this.wss.on("message" , async msg =>{
+  if(`${msg}`.includes('Buffer')){
+
+ let s = Buffer.from(msg).toString("utf8")
+ console.log(s)
+    return this.client.send(msg)
+
+ }else{
+this.client.send(msg)
+
+}
 /*
   let m;
 try {m = JSON.parse(msg)} catch { return; }
@@ -47,7 +82,6 @@ try {m = JSON.parse(msg)} catch { return; }
 }
   if(m.t == null && this.tokenSended === false) return auth(this.token)
 */
-this.client.send(msg)
 })
 }
    
