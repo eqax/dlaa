@@ -21,7 +21,6 @@ app.use("/:data*", async (req, res) => {
   if(req.originalUrl === '/app') return res.sendFile(__dirname + "/app.html")
   if(req.originalUrl === '/login') return res.sendFile(__dirname + "/login.html")
   if(req.originalUrl === '/') return res.sendFile(__dirname + "/index.html")
-  if(req.originalUrl.includes('/channels')) return res.sendFile(__dirname + "/channels.html")
 
   let headers = req.headers
   var headersNew = {}
@@ -32,7 +31,7 @@ if(headers['authorization']) headersNew['authorization'] = headers['authorizatio
 if(headers['cookie']) headersNew['cookie'] = headers['cookie']
 if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprint']
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
-//  if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
+  if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
   console.log('https://discord.com' + req.originalUrl)
   if(JSON.stringify(req.body) === `{}`){
 if('https://discord.com' + req.originalUrl === "https://discord.com/api/v7/experiments") headersNew = {}
