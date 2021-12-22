@@ -31,9 +31,8 @@ if(headers['authorization']) headersNew['authorization'] = headers['authorizatio
 if(headers['cookie']) headersNew['cookie'] = headers['cookie']
 if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprint']
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
-
   if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
-  if(headersNew.authorization === 'Bot undefined') delete headersNew.authorization
+console.log(headersNew.authorization)
   console.log('https://discord.com' + req.originalUrl)
   if(JSON.stringify(req.body) === `{}`){
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
