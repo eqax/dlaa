@@ -32,9 +32,25 @@ if(headers['cookie']) headersNew['cookie'] = headers['cookie']
 if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprint']
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
   if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
-console.log(headersNew.authorization)
   console.log('https://discord.com' + req.originalUrl)
   if(JSON.stringify(req.body) === `{}`){
+            console.log('Geted-')
+let dataFetch = await fetch(('https://discord.com' + req.originalUrl.replace('v6', '')), {method: req.method, headers: headersNew}).catch(err =>{})
+console.log(dataFetch)
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
+
+  let dataText = await dataFetch.text()
+  try {
+  
+    let s = JSON.parse(dataText)
+    return res.json(s)
+    
+  } catch {
+return res.send(dataText)
+}
+
+        }else{
+        console.log('Geted')
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
@@ -49,19 +65,7 @@ console.log(headersNew.authorization)
   } catch {
 return res.send(dataText)
 }
-        }else{
-  let dataFetch = await fetch(('https://discord.com' + req.originalUrl.replace('v6')), {method: req.method, headers: headersNew}).catch(err =>{})
-  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 
-  let dataText = await dataFetch.text()
-  try {
-  
-    let s = JSON.parse(dataText)
-    return res.json(s)
-    
-  } catch {
-return res.send(dataText)
-}
 }
 
 });
