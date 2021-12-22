@@ -35,6 +35,8 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
   console.log('https://discord.com' + req.originalUrl)
   if(JSON.stringify(req.body) === `{}`){
 if('https://discord.com' + req.originalUrl === "https://discord.com/api/v9/experiments") headersNew = {}
+if('https://discord.com' + req.originalUrl === "https://discord.com/api/v7/science") headersNew = {}
+
 let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 
