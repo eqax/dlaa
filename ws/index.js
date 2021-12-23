@@ -19,9 +19,7 @@ if(this.ready === true) {stop === true; res()}
     
 })
    try {
-     console.log(JSON.parse(Buffer.from(msg).toString("utf8")))
      return this.wss.send(JSON.stringify(JSON.parse(Buffer.from(msg).toString("utf8")))) } catch(e) { 
-       console.log(e)
        return this.wss.send(msg) };
 
   

