@@ -29,6 +29,73 @@ if(this.ready === true) {stop === true; res()}
 
 
 })
+}
+  
+  
+   async _start(){
+this.wss = new ws( "wss://remote-auth-gateway.discord.gg/?v=1" , [] , {
+headers: {Origin: "https://discord.com",
+"Sec-WebSocket-Extensions": "permessage-deflate; client_max_window_bits",
+Host: "remote-auth-gateway.discord.gg",
+"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.54 Safari/537.36"
+}})
+
+this.wss.on("open" , async () =>{
+this.ready = true
+  console.log('ready')
+})
+this.wss.on("close" , async () =>{
+this.client.close()
+  this.ready = false
+    console.log('c;ose')
+})
+this.wss.on("message" , async msg =>{
+   try {
+     console.log(JSON.parse(Buffer.from(msg).toString("utf8")))
+     return this.client.send(JSON.stringify(JSON.parse(Buffer.from(msg).toString("utf8")))) } catch(e) { 
+       console.log(e)
+       return this.client.send(msg) };
+
+
+
+
+})
+}
+   
+ }
+module.exports = Client;
+
+/*let ws = require('ws')
+
+class Client extends Object {
+constructor (client , req, ws, auth, id) {
+  super  ()
+this._start()
+this.client= client
+this.ready = false
+this.client.on('message', async (msg) =>{
+
+     await new Promise((res , rej) =>{ 
+
+    var stop = false
+    
+    setInterval(() =>{ 
+    if(stop === true) return;
+if(this.ready === true) {stop === true; res()}
+    }, 500)
+    
+})
+   try {
+     console.log(JSON.parse(Buffer.from(msg).toString("utf8")))
+     return this.wss.send(JSON.stringify(JSON.parse(Buffer.from(msg).toString("utf8")))) } catch(e) { 
+       console.log(e)
+       return this.wss.send(msg) };
+
+  
+  console.log('ready-send')
+
+
+})
 
 }
    
@@ -45,31 +112,13 @@ this.client.close()
     console.log('c;ose')
 })
 this.wss.on("message" , async msg =>{
-/*
-  let data; try { data = JSON.parse(msg) } catch(e) {
-this.client.send(JSON.stringify(msg))
 
- };
-        console.log(data)*/
 
 this.client.send(msg)
 
 
-/*
-  let m;
-try {m = JSON.parse(msg)} catch { return; }
-    console.log(msg)
-
-  let auth = (token) => {
-  this.wss.token = token
-  console.log(token)
-  this.wss.send(`{"op":2,"d":{"token":"${token}","capabilities":61,"properties":{"os":"Windows","browser":"Chrome","device":"","browser_user_agent":"NodeJS (GROUPjs)","browser_version":"88.0.4324.182","os_version":"10","referrer":"https://www.google.com/","referring_domain":"www.google.com","search_engine":"google","referrer_current":"","referring_domain_current":"","release_channel":"stable","client_build_number":77606,"client_event_source":null},"presence":{"status":"dnd","since":0,"activities":[],"afk":false},"compress":false,"client_state":{"guild_hashes":{},"highest_last_message_id":"0","read_state_version":0,"user_guild_settings_version":-1}}}`)
-  this.tokenSended = true
-}
-  if(m.t == null && this.tokenSended === false) return auth(this.token)
-*/
 })
 }
    
  }
-module.exports = Client;
+module.exports = Client;*/
