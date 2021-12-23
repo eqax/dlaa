@@ -3,7 +3,13 @@ const app = express();
 const fs = require("fs");
 let fetch = require('node-fetch')
 var discordIndexHTML = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
+const http = require('http');
+let ws = require('ws')
 
+const server = new http.createServer(app);
+server.listen(3000)
+
+let wss = new ws.Server({ server });
 app.use("/src", express.static(__dirname + "/src"));
 const bodyParser = require('body-parser');
 console.log('Started')
@@ -70,6 +76,10 @@ app.use("/", async (req, res) => {
 	res.send(discordIndexHTML);
 });
 
-app.listen(3000, () => {
-	console.log("server listening on :3000");
-});
+let clientWs = require('./ws/index.js')
+
+wss.on('connection', async function connection(client, req) {
+
+
+new clientWs(client, req, wss)
+})
