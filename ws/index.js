@@ -23,7 +23,6 @@ if(this.ready === true) {stop === true; res()}
        return this.wss.send(msg) };
 
   
-  console.log('ready-send')
 
 
 })
@@ -40,16 +39,13 @@ Host: "remote-auth-gateway.discord.gg",
 
 this.wss.on("open" , async () =>{
 this.ready = true
-  console.log('ready')
 })
 this.wss.on("close" , async () =>{
 this.client.close()
   this.ready = false
-    console.log('c;ose')
 })
 this.wss.on("message" , async msg =>{
    try {
-     console.log(JSON.parse(Buffer.from(msg).toString("utf8")))
      return this.client.send(JSON.stringify(JSON.parse(Buffer.from(msg).toString("utf8")))) } catch(e) { 
        console.log(e)
        return this.client.send(msg) };
