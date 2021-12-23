@@ -33,7 +33,7 @@ if(this.ready === true) {stop === true; res()}
 }
    
    async _start(){
-this.wss = new ws( "wss://gateway.discord.gg/?encoding=json&v=7" , [] )
+this.wss = new ws( "wss://gateway.discord.gg/?encoding=json&v=7&compress=zlib-stream" , [] )
 
 this.wss.on("open" , async () =>{
 this.ready = true
@@ -45,14 +45,14 @@ this.client.close()
     console.log('c;ose')
 })
 this.wss.on("message" , async msg =>{
-
+/*
   let data; try { data = JSON.parse(msg) } catch(e) {
 this.client.send(JSON.stringify(msg))
 
  };
-        console.log(data)
+        console.log(data)*/
 
-this.client.send(JSON.stringify(data))
+this.client.send(msg)
 
 
 /*
