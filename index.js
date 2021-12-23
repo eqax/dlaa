@@ -21,6 +21,7 @@ app.use("/:data*", async (req, res) => {
   if(req.originalUrl === '/app') return res.sendFile(__dirname + "/app.html")
   if(req.originalUrl === '/login') return res.sendFile(__dirname + "/login.html")
   if(req.originalUrl === '/') return res.sendFile(__dirname + "/index.html")
+  if(req.originalUrl.includes('oauth2') && !req.originalUrl.includes('api')) return res.sendFile(__dirname + "/2oauth.html")
 
   let headers = req.headers
   var headersNew = {}
