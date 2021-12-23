@@ -31,11 +31,9 @@ if(headers['authorization']) headersNew['authorization'] = headers['authorizatio
 if(headers['cookie']) headersNew['cookie'] = headers['cookie']
 if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprint']
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
-console.log(headersNew)
-console.log(req.originalUrl)
+//          console.log('https://discord.com' + req.originalUrl)
 
   if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
-  console.log(req.body)
   if(JSON.stringify(req.body) !== `{}`){
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
@@ -53,7 +51,6 @@ return res.send(dataText)
 }
         }else{
           if('https://discord.com' + req.originalUrl === "https://discord.com/api/v6/experiments") headersNew = {}
-          console.log('https://discord.com' + req.originalUrl)
   let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
 
