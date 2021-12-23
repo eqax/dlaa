@@ -16,6 +16,21 @@ console.log('Started')
  app.use(bodyParser.json({limit: "50mb"}));
 var data = []
 app.use("/:data*", async (req, res) => {
+  
+  if(req.originalUrl.startsWith('https://cdn')){
+console.log('https://cdn.discordapp.com/' + req.originalUrl.replace('/cdn', ''))
+    let dataFetch = await fetch(('https://cdn.discordapp.com/' + req.originalUrl.replace('/cdn', '')),{
+headers: {
+"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.54 Safari/537.36"
+}
+})
+    let dataJSON = await dataFetch.json()
+    
+    res.status(dataFetch.status).json(dataJSON)
+    
+return;
+}
+  
   if(req.originalUrl === '/assets/0.2d737cc92c807c265e1f.css') return res.sendFile(__dirname + "/style1.css")
   if(req.originalUrl === '/assets/532.d49196785d17cb9b60a9.css') return res.sendFile(__dirname + "/style2.css")
   if(req.originalUrl === '/app') return res.sendFile(__dirname + "/app.html")
