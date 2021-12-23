@@ -33,14 +33,15 @@ if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprin
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 //          console.log('https://discord.com' + req.originalUrl)
 
-//  if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
+// if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
  if(headersNew.referer) headersNew.referer = `${headersNew.referer}`.replace('https://scalloped-mahogany-chronometer.glitch.me/', 'https://discord.com/')
  if(headersNew.origin) headersNew.origin = `https://discord.com/`
- 
+ console.log(headersNew)
+  console.log('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7'))
   if(JSON.stringify(req.body) !== `{}`){
-  let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
-  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
-  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
+  let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method}).catch(err =>{})
 
   let dataText = await dataFetch.text()
   try {
@@ -54,8 +55,12 @@ return res.status(dataFetch.status).send(dataText)
 }
         }else{
           if('https://discord.com' + req.originalUrl === "https://discord.com/api/v6/experiments") headersNew = {}
-  let dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method, headers: headersNew}).catch(err =>{})
-  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + req.originalUrl), {method: req.method}).catch(err =>{})
+          console.log(headersNew)
+          headersNew.host = "discord.com"
+          console.log('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7'))
+  let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew}).catch(err =>{})
+  console.log(dataFetch)
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method}).catch(err =>{})
 
   let dataText = await dataFetch.text()
   try {
