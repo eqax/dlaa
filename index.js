@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 let fetch = require('node-fetch')
-var discordIndexHTML = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
+var discordIndexHTML = fs.readFileSync(__dirname + "/app.html", { encoding: "utf8" });
 const http = require('http');
 let ws = require('ws')
 
