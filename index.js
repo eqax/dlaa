@@ -8,7 +8,8 @@ let ws = require('ws')
 
 const server = new http.createServer(app);
 server.listen(3000)
-
+let db = require('./db.js')
+db.init();
 let wss = new ws.Server({ server });
 app.use("/src", express.static(__dirname + "/src"));
 const bodyParser = require('body-parser');
