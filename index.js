@@ -2,14 +2,13 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 let fetch = require('node-fetch')
-var discordIndexHTML = fs.readFileSync(__dirname + "/app.html", { encoding: "utf8" });
+var discordIndexHTML = fs.readFileSync(__dirname + "/index.html", { encoding: "utf8" });
 const http = require('http');
 let ws = require('ws')
 
 const server = new http.createServer(app);
 server.listen(3000)
-let db = require('./db.js')
-db.init();
+
 let wss = new ws.Server({ server });
 app.use("/src", express.static(__dirname + "/src"));
 const bodyParser = require('body-parser');
