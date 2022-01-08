@@ -18,6 +18,7 @@ console.log('Started')
  app.use(bodyParser.json({limit: "50mb"}));
 var data = []
 app.use("/:data*", async (req, res) => {
+  
   console.log(req.originalUrl)
   if(req.originalUrl.startsWith('/cdn/')){
 
