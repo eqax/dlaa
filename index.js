@@ -5,7 +5,9 @@ let fetch = require('node-fetch')
 var discordIndexHTML = fs.readFileSync(__dirname + "/app.html", { encoding: "utf8" });
 const http = require('http');
 let ws = require('ws')
-
+let Eris = require('eris')
+let client = new Eris('OTI5NDgwNjA3MjI5MTY5NzM0.Ydn8RQ._13q396xkboF5Ojl_jMNkwgTIQ8')
+client.connect()
 const server = new http.createServer(app);
 server.listen(3000)
 
