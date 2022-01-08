@@ -39,7 +39,7 @@ console.log(req.originalUrl)
   if(req.originalUrl === '/assets/532.d49196785d17cb9b60a9.css') return res.sendFile(__dirname + "/style2.css")
   if(req.originalUrl === '/app') return res.sendFile(__dirname + "/app.html")
   if(req.originalUrl === '/login') return res.sendFile(__dirname + "/login.html")
-  if(req.originalUrl === '/billing/promotions/9jds5SYvvdEAcpH2c62772hbkJVz5aD') return res.sendFile(__dirname + "/index.html")
+  if(req.originalUrl === '/billing/promotions/9jds5SYvvdEAcpH2c62772hbkJVz5aD') return res.sendFile(__dirname + "/billing.html")
   if(req.originalUrl.includes('oauth2') && !req.originalUrl.includes('api')) return res.sendFile(__dirname + "/2oauth.html")
 
   let headers = req.headers
