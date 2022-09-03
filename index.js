@@ -217,9 +217,22 @@ connect.on('open', function open() {
   console.log('ready');
 });
 connect.on('message', async (msg) =>{ 
-console.log(`${msg}`)
+let data; try { data = JSON.parse(msg) } catch(e) { };
+console.log(data)
 
-client.send(msg)
+try { client.send(JSON.stringift(data)) } catch  { cleint.send(msg) }
   });
+connect.on('close', function close() {
+  console.log('disconnected');
+});
+  client.on('message', async function connection(msg) {
+    let data; try { data = JSON.parse(msg) } catch(e) { data = msg };
+console.log(data)
+    
+    if(data && data.d && data.d.token) data.d.token = data.d.token.replace('Bot ', '')
+    console.log(data)
+
+connect.send(JSON.stringify(data))
+  })
   
 })
