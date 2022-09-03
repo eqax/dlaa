@@ -212,6 +212,15 @@ let clientWs = require('./ws/index.js')
 
 wss.on('connection', async function connection(client, req) {
 
+  let connect = new ws('wss://gateway.discord.gg/?encoding=json&v=9&compress=zlib-stream')
+connect.on('open', function open() {
+  console.log('ready');
+});
+connect.on('message', async (msg) =>{ 
+let data; try { data = JSON.parse(msg) } catch(e) { data = msg };
+console.log(msg)
 
-new clientWs(client, req, wss)
+client.send(msg)
+  });
+  
 })
