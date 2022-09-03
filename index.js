@@ -217,8 +217,7 @@ connect.on('open', function open() {
   console.log('ready');
 });
 connect.on('message', async (msg) =>{ 
-let data; try { data = JSON.parse(msg) } catch(e) { data = msg };
-console.log(msg)
+console.log(`${msg}`)
 
 client.send(msg)
   });
