@@ -212,15 +212,21 @@ let clientWs = require('./ws/index.js')
 
 wss.on('connection', async function connection(client, req) {
 
-  let connect = new ws('wss://gateway.discord.gg/?encoding=json&v=9&compress=zlib-stream')
+  let connect = new ws('wss://gateway.discord.gg/?encoding=json&v=7&compress=zlib-stream')
 connect.on('open', function open() {
   console.log('ready');
 });
 connect.on('message', async (msg) =>{ 
-let data; try { data = JSON.parse(msg) } catch(e) { };
+let data; try 
+{
+  data = JSON.parse(msg)
+  client.send(JSON.stringify(data))
+} catch(e) {
+client.send(msg)
+};
 console.log(data)
 
-try { client.send(JSON.stringift(data)) } catch  { cleint.send(msg) }
+//try { client.send(JSON.stringift(data)) } catch  { cleint.send(msg) }
   });
 connect.on('close', function close() {
   console.log('disconnected');
