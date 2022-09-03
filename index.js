@@ -56,7 +56,7 @@ if(headers['authorization']) headersNew['authorization'] = headers['authorizatio
 if(headers['content-type']) headersNew['content-type'] = headers['content-type']
 //          console.log('https://discord.com' + req.originalUrl)
 
-//if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
+if(headersNew.authorization) headersNew.authorization = "Bot " + headersNew.authorization
  if(headersNew.referer) headersNew.referer = `${headersNew.referer}`.replace('https://scalloped-mahogany-chronometer.glitch.me/', 'https://discord.com/')
  if(headersNew.origin) headersNew.origin = `https://discord.com/`
  
@@ -229,13 +229,13 @@ console.log(data)
 //try { client.send(JSON.stringift(data)) } catch  { cleint.send(msg) }
   });
 connect.on('close', function close() {
-  console.log('disconnected');
+  client.close();
 });
   client.on('message', async function connection(msg) {
     let data; try { data = JSON.parse(msg) } catch(e) { data = msg };
 console.log(data)
     
-    if(data && data.d && data.d.token) data.d.token = data.d.token.replace('Bot ', '')
+    //if(data && data.d && data.d.token) data.d.token = data.d.token.replace('Bot ', '')
     console.log(data)
 
 connect.send(JSON.stringify(data))
